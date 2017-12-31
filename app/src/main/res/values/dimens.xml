@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Card Values for the main list-->
+    <dimen name="list_side_margin">4dp</dimen>
+    <dimen name="list_toolbar_side_margin">0dp</dimen>
+    <dimen name="card_title_padding_top">24dp</dimen>
+    <dimen name="card_padding_left">16dp</dimen>
+    <dimen name="card_padding_right">16dp</dimen>
+    <dimen name="card_text_padding_top">16dp</dimen>
+    <dimen name="card_text_padding_bottom">24dp</dimen>
+
+    <integer name="list_column_count">1</integer>
+</resources>

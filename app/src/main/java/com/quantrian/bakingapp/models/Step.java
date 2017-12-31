@@ -11,11 +11,11 @@ public class Step {
     public String videoURL;
     public String thumbnailURL;
 
-    public Step(int id, String shtDesc, String desc, String vidURL, String thumbURL){
+    /*public Step(int id, String shtDesc, String desc, String vidURL, String thumbURL){
         this.id = id;
         this.shortDescription = shtDesc;
         this.description = desc;
         this.videoURL = vidURL;
         this.thumbnailURL = thumbURL;
-    }
+    }*/
 }

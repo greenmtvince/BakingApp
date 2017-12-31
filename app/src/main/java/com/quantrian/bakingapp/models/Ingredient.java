@@ -6,13 +6,13 @@ package com.quantrian.bakingapp.models;
 
 public class Ingredient {
 
-    public int quantity;
+    public float quantity;
     public String measure;
-    public String ingredientName;
+    public String ingredient;
 
-    public Ingredient(int n, String measure, String ingredient_name){
+    /*public Ingredient(int n, String measure, String ingredient_name){
         this.quantity=n;
         this.measure=measure;
-        this.ingredientName=ingredient_name;
-    }
+        this.ingredient=ingredient_name;
+    }*/
 }

@@ -22,15 +22,15 @@ public class DbHelperRecipe extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeEntry.TABLE_NAME + "("+
+        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeEntry.TABLE_NAME + " ("+
                 RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 RecipeEntry.COLUMN_ID + " INTEGER NOT NULL, " +
                 RecipeEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 RecipeEntry.COLUMN_SERVINGS + " INTEGER NOT NULL, " +
                 RecipeEntry.COLUMN_IMAGE + " TEXT" +
                 "); ";
-        final String SQL_CREATE_STEP_TABLE = "CREATE TABLE " + StepEntry.TABLE_NAME + "(" +
-                StepEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        final String SQL_CREATE_STEP_TABLE = "CREATE TABLE " + StepEntry.TABLE_NAME + " (" +
+                StepEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 StepEntry.COLUMN_ID + " INTEGER NOT NULL, " +
                 StepEntry.COLUMN_SHORT_DESCRIPTION + " TEXT NOT NULL, " +
                 StepEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
@@ -39,8 +39,8 @@ public class DbHelperRecipe extends SQLiteOpenHelper{
                 StepEntry.COLUMN_FK_RECIPE + " INTEGER, " +
                 "FOREIGN KEY(fk_recipe) REFERENCES recipes(id)"+
                 "); ";
-        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + IngredientEntry.TABLE_NAME + "(" +
-                IngredientEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + IngredientEntry.TABLE_NAME + " (" +
+                IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 IngredientEntry.COLUMN_INGREDIENT + " TEXT NOT NULL, " +
                 IngredientEntry.COLUMN_MEASURE + " TEXT NOT NULL, " +
                 IngredientEntry.COLUMN_QUANTITY + " REAL, " +
@@ -48,11 +48,9 @@ public class DbHelperRecipe extends SQLiteOpenHelper{
                 "FOREIGN KEY(fk_recipe) REFERENCES recipes(id)"+
                 "); ";
 
-
         db.execSQL(SQL_CREATE_RECIPE_TABLE);
         db.execSQL(SQL_CREATE_STEP_TABLE);
         db.execSQL(SQL_CREATE_INGREDIENT_TABLE);
-
 
     }
 

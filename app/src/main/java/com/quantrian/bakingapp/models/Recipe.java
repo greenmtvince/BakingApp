@@ -7,6 +7,8 @@ import java.util.List;
  */
 
 public class Recipe {
+    public Recipe (){}
+
     public String name;
     public int id;
     public int servings;
@@ -14,7 +16,7 @@ public class Recipe {
     public List<Ingredient> ingredients;
     public List<Step> steps;
 
-    public Recipe(int id, String name, int servings, String image, List<Ingredient> ingredients1,
+    /*public Recipe(int id, String name, int servings, String image, List<Ingredient> ingredients1,
                   List<Step> steps1){
         this.id=id;
         this.name=name;
@@ -22,5 +24,5 @@ public class Recipe {
         this.image=image;
         this.ingredients = ingredients1;
         this.steps= steps1;
-    }
+    }*/
 }

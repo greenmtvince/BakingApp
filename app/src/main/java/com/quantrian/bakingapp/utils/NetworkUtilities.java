@@ -1,11 +1,18 @@
 package com.quantrian.bakingapp.utils;
 
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.quantrian.bakingapp.models.Recipe;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -21,7 +28,7 @@ public class NetworkUtilities {
 
     private static final String TAG = NetworkUtilities.class.getName();
 
-    public static JSONArray fetchJsonArray() {
+    public static ArrayList<Recipe> fetchJsonArray() {
         String itemsJson = null;
         try {
             itemsJson = fetchPlainText(UrlConfig.BASE_URL);
@@ -32,13 +39,8 @@ public class NetworkUtilities {
 
         // Parse JSON
         try {
-            JSONTokener tokener = new JSONTokener(itemsJson);
-            Object val = tokener.nextValue();
-            if (!(val instanceof JSONArray)) {
-                throw new JSONException("Expected JSONArray");
-            }
-            return (JSONArray) val;
-        } catch (JSONException e) {
+            return convertArray(itemsJson);
+        } catch (Exception e) {
             Log.e(TAG, "Error parsing items JSON", e);
         }
 
@@ -50,7 +52,7 @@ public class NetworkUtilities {
      *----------------------------------------------------
     */
 
-    static String fetchPlainText(URL url) throws IOException {
+    public static String fetchPlainText(URL url) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -60,4 +62,13 @@ public class NetworkUtilities {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
+
+    public static ArrayList<Recipe> convertArray(String rawJson) {
+        Gson gson = new Gson();
+        Recipe[] rArray = gson.fromJson(rawJson, Recipe[].class);
+
+        return new ArrayList<>(Arrays.asList(rArray));
+    }
+
+
 }
