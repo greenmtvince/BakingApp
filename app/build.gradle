@@ -34,4 +34,6 @@ dependencies {
     compile "com.android.support:design:26.1.0"
     compile "com.android.support:recyclerview-v7:26.1.0"
     compile 'com.google.code.gson:gson:2.8.2'
+    compile "com.android.support:support-v13:26.1.0"
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }

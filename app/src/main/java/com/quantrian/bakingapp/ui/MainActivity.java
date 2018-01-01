@@ -1,4 +1,4 @@
-package com.quantrian.bakingapp;
+package com.quantrian.bakingapp.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.quantrian.bakingapp.Adapters.RecipeCardAdapter;
+import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
-import com.quantrian.bakingapp.utils.NetworkUtilities;
 import com.quantrian.bakingapp.utils.TaskCompleteListener;
 
 import java.util.ArrayList;
@@ -77,10 +77,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                  Toast.makeText(getBaseContext(), "You clicked item at position "+ position, Toast.LENGTH_SHORT).show();
-                /*Movie movie = movieList.get(position);
-                Intent i=new Intent(getApplicationContext(),MovieDetailActivity.class);
-                i.putExtra("MOVIE",movie);
-                startActivity(i);*/
+                /*Movie movie = movieList.get(position);*/
+                Recipe recipe = mRecipes.get(position);
+                Intent i=new Intent(getApplicationContext(),RecipeDetailActivity.class);
+                i.putExtra("RECIPE",recipe.name);
+                i.putExtra("STEPS", recipe.steps);
+                //i.putExtra("MOVIE",movie);
+                startActivity(i);
             }
         });
         mRecyclerView.setAdapter(posterAdapter);

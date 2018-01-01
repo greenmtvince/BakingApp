@@ -1,5 +1,6 @@
 package com.quantrian.bakingapp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ public class Recipe {
     public int id;
     public int servings;
     public String image;
-    public List<Ingredient> ingredients;
-    public List<Step> steps;
+    public ArrayList<Ingredient> ingredients;
+    public ArrayList<Step> steps;
 
     /*public Recipe(int id, String name, int servings, String image, List<Ingredient> ingredients1,
                   List<Step> steps1){

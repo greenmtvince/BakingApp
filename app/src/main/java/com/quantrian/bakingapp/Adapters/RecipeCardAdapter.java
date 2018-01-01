@@ -5,16 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.quantrian.bakingapp.MainActivity;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.DynamicHeightNetworkImageView;
 import com.quantrian.bakingapp.utils.ImageLoaderHelper;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

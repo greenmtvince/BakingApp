@@ -1,13 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantrian.bakingapp.RecipeDetailFragment">
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/recipe_detail_fragment_texty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recipe_detail_fragment_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</FrameLayout>
+</LinearLayout>
