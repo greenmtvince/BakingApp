@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 
 public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.ViewHolder>{
+    private int selectedPos = RecyclerView.NO_POSITION;
     private Context mContext;
     private ArrayList<Step> mSteps;
     private RecipeCardAdapter.OnItemClickListener mListener;
@@ -42,7 +43,12 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.stepName.setText((position+1)+". "+mSteps.get(position).shortDescription);
+        String prefix="";
+        if (position>0){
+            prefix=position+". ";
+        }
+        holder.stepName.setText(prefix+mSteps.get(position).shortDescription);
+        holder.itemView.setSelected(selectedPos==position);
     }
 
     @Override
@@ -55,7 +61,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         return mSteps.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView stepName;
 
@@ -67,6 +72,10 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    notifyItemChanged(selectedPos);
+                    selectedPos = getLayoutPosition();
+                    notifyItemChanged(selectedPos);
+
                     if (mListener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){

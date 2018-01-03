@@ -5,7 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +38,11 @@ import com.quantrian.bakingapp.models.Step;
 public class RecipeStepDetailFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String CURRENT_STEP = "current_step";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "EXODEBUG";
 
     private Step mStep;
-    private String mParam2;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
     private long mPlayerCurrentPosition;
-
-    //private OnFragmentInteractionListener mListener;
 
     public RecipeStepDetailFragment() {
         // Required empty public constructor
@@ -58,7 +53,6 @@ public class RecipeStepDetailFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param step1 Parameter 1.
-     * //@param param2 Parameter 2.
      * @return A new instance of fragment RecipeStepDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -66,7 +60,6 @@ public class RecipeStepDetailFragment extends Fragment {
         RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(CURRENT_STEP, step1);
-        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,11 +68,7 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mStep = getArguments().getParcelable(CURRENT_STEP);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-
-
-        }
+            mStep = getArguments().getParcelable(CURRENT_STEP);      }
     }
 
     @Override
@@ -88,10 +77,12 @@ public class RecipeStepDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
 
-        if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT) {
+
+
+        //if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT) {
             ((TextView) view.findViewById(R.id.recipe_step_detail_fragment_instruction_text))
                     .setText(mStep.description);
-        }
+        //}
         mPlayerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
         if(!mStep.videoURL.equals(""))
             initializePlayer(Uri.parse(mStep.videoURL));
@@ -103,10 +94,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
     @Override
     public void onResume() {
-
         super.onResume();
-
-
     }
 
     private void initializePlayer(Uri mediaUri){
@@ -119,7 +107,7 @@ public class RecipeStepDetailFragment extends Fragment {
                     getActivity(), "User-Agent:QuantrianBakingApp"),
                     new DefaultExtractorsFactory(), null,null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayer.setPlayWhenReady(true);
         }
     }
 
@@ -150,35 +138,6 @@ public class RecipeStepDetailFragment extends Fragment {
 
     private long getCurrentPlayerPosition() {
         return mExoPlayer.getCurrentPosition();
-    }
-
-    private void resumePlayback(){
-        mExoPlayer.seekTo(mPlayerCurrentPosition);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser){
-        super.setUserVisibleHint(isVisibleToUser);
-        //Log.d(TAG, "setUserVisibleHint: Becoming Visible");
-        if (this.isVisible())
-        {
-            if (!isVisibleToUser)
-            {
-                if (mExoPlayer!=null)
-                    mExoPlayer.setPlayWhenReady(false);
-            }
-            if(isVisibleToUser)
-            {
-                if (mExoPlayer!=null)
-                    mExoPlayer.setPlayWhenReady(true);
-                /*else {
-                    if(!mStep.videoURL.equals(""))
-                        initializePlayer(Uri.parse(mStep.videoURL));
-                    else
-                        mPlayerView.setVisibility(View.GONE);
-                }*/
-            }
-        }
     }
 
 }

@@ -41,8 +41,6 @@ public class Step implements Parcelable{
         thumbnailURL = in.readString();
 
     }
-
-    //I don't quite get the purpose of the CREATOR
     public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override
         public Step createFromParcel(Parcel in) {
@@ -54,12 +52,4 @@ public class Step implements Parcelable{
             return new Step[size];
         }
     };
-
-    /*public Step(int id, String shtDesc, String desc, String vidURL, String thumbURL){
-        this.id = id;
-        this.shortDescription = shtDesc;
-        this.description = desc;
-        this.videoURL = vidURL;
-        this.thumbnailURL = thumbURL;
-    }*/
 }

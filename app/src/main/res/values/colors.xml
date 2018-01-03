@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#E64A19</color>
     <color name="colorAccent">#536DFE</color>
     <color name="photo_placeholder">#FFF</color>
+    <color name="menu_nav_contrast">#FFF</color>
 </resources>

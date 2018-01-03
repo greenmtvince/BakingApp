@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
             new FetchNetworkRecipes(new FetchRecipeTaskCompleteListener()).execute();
-            //new FetchMovies(this, new FetchMovieTaskCompleteListener()).execute(sortBy);
         } else {
             Toast.makeText(this, "Not Connected to the internet",
                     Toast.LENGTH_LONG).show();
@@ -72,28 +71,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter(){
-        RecipeCardAdapter posterAdapter = new RecipeCardAdapter(getApplicationContext(),mRecipes);
-        posterAdapter.setOnItemClickListener(new RecipeCardAdapter.OnItemClickListener() {
+        RecipeCardAdapter recipeCardAdapter = new RecipeCardAdapter(getApplicationContext(),mRecipes);
+        recipeCardAdapter.setOnItemClickListener(new RecipeCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                 Toast.makeText(getBaseContext(), "You clicked item at position "+ position, Toast.LENGTH_SHORT).show();
-                /*Movie movie = movieList.get(position);*/
                 Recipe recipe = mRecipes.get(position);
                 Intent i=new Intent(getApplicationContext(),RecipeDetailActivity.class);
                 i.putExtra("RECIPE",recipe.name);
+                i.putExtra("INGREDIENTS",recipe.ingredients);
                 i.putExtra("STEPS", recipe.steps);
-                //i.putExtra("MOVIE",movie);
                 startActivity(i);
             }
         });
-        mRecyclerView.setAdapter(posterAdapter);
-       /* if (layoutManagerSavedState!=null){
-
-            mRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
-        }*/
+        mRecyclerView.setAdapter(recipeCardAdapter);
     }
-
-
 
     public class FetchRecipeTaskCompleteListener implements TaskCompleteListener<ArrayList<Recipe>> {
         @Override
@@ -102,6 +93,4 @@ public class MainActivity extends AppCompatActivity {
             setAdapter();
         }
     }
-
-
 }

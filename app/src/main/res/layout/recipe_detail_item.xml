@@ -2,15 +2,17 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/list_side_margin"
-    android:layout_marginBottom="@dimen/list_side_margin"
-    android:layout_marginStart="@dimen/list_side_margin"
-    android:layout_marginEnd="@dimen/list_side_margin"
+
+    android:background="@drawable/list_drawable_selector"
     >
     <TextView
         android:id="@+id/recipe_detail_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/list_side_margin"
+        android:layout_marginEnd="@dimen/list_side_margin"/>
 
 </android.support.constraint.ConstraintLayout>

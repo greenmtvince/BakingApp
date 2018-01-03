@@ -45,8 +45,7 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Vi
         boolean shouldAttachToParentImmediately = false;
         View view = inflater.inflate(layoutIdForItem, parent, shouldAttachToParentImmediately);
 
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
