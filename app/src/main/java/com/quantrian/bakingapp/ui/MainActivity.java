@@ -1,5 +1,7 @@
 package com.quantrian.bakingapp.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.quantrian.bakingapp.Adapters.RecipeCardAdapter;
 import com.quantrian.bakingapp.R;
+import com.quantrian.bakingapp.RecipeWidgetProvider;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
 import com.quantrian.bakingapp.utils.TaskCompleteListener;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.list_column_count));
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout_main)).setTitle("Baking Time");
@@ -80,7 +83,19 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("RECIPE",recipe.name);
                 i.putExtra("INGREDIENTS",recipe.ingredients);
                 i.putExtra("STEPS", recipe.steps);
+
+                Intent widgetIntent= new Intent(getApplicationContext(), RecipeWidgetProvider.class);
+                widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                int[]ids = AppWidgetManager.getInstance(getApplication())
+                        .getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
+                widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                widgetIntent.putExtra("TODO", "TODO!!!");
+                sendBroadcast(widgetIntent);
+
+
                 startActivity(i);
+
+
             }
         });
         mRecyclerView.setAdapter(recipeCardAdapter);

@@ -5,4 +5,5 @@
     <color name="colorAccent">#536DFE</color>
     <color name="photo_placeholder">#FFF</color>
     <color name="menu_nav_contrast">#FFF</color>
+    <color name="list_selected_contrast">#FFFFFF</color>
 </resources>
