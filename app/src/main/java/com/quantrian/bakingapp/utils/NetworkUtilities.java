@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +69,11 @@ public class NetworkUtilities {
         Recipe[] rArray = gson.fromJson(rawJson, Recipe[].class);
 
         return new ArrayList<>(Arrays.asList(rArray));
+    }
+
+    public static String convertToString(ArrayList<Recipe> recipes){
+        Gson gson = new Gson();
+        return gson.toJson(recipes);
     }
 
 

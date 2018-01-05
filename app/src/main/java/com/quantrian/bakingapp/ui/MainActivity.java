@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -20,6 +21,7 @@ import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.RecipeWidgetProvider;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
+import com.quantrian.bakingapp.utils.NetworkUtilities;
 import com.quantrian.bakingapp.utils.TaskCompleteListener;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Recipe> mRecipes;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout = findViewById(R.id.main_swipe_refresh_layout);
 
         mContext = this;
+
+        mSharedPref = mContext.getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,14 +89,15 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("INGREDIENTS",recipe.ingredients);
                 i.putExtra("STEPS", recipe.steps);
 
+                mSharedPref.edit().putString(getString(R.string.selected_recipe),
+                        Integer.toString(position)).apply();
+
                 Intent widgetIntent= new Intent(getApplicationContext(), RecipeWidgetProvider.class);
                 widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                 int[]ids = AppWidgetManager.getInstance(getApplication())
                         .getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
                 widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-                widgetIntent.putExtra("TODO", "TODO!!!");
                 sendBroadcast(widgetIntent);
-
 
                 startActivity(i);
 
@@ -105,7 +111,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onTaskComplete(ArrayList<Recipe> result){
             mRecipes = result;
+            writeToSharedPreferences();
             setAdapter();
         }
+    }
+
+    public void writeToSharedPreferences(){
+        mSharedPref.edit().putString(getString(R.string.json_array), NetworkUtilities.convertToString(mRecipes)).apply();
     }
 }

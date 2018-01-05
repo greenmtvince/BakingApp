@@ -28,6 +28,7 @@ import com.quantrian.bakingapp.Adapters.RecipeDetailAdapter;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Ingredient;
 import com.quantrian.bakingapp.models.Step;
+import com.quantrian.bakingapp.utils.PrettyStrings;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class MasterListFragment extends Fragment {
 
     OnStepClickListener mCallback;
 
-    private String TAG = "FRAGLOG";
+    private static final String TAG = "FRAGLOG";
     private RecyclerView mRecyclerView;
 
     public MasterListFragment() {
@@ -119,52 +120,14 @@ public class MasterListFragment extends Fragment {
         }
     }
 
-    private String getRecipeIngredients(ArrayList<Ingredient> ingredientList){
+    private static String getRecipeIngredients(ArrayList<Ingredient> ingredientList){
         StringBuilder ingredientsText= new StringBuilder();
         for (Ingredient ingredient : ingredientList){
-            ingredientsText.append(prettyNumbers(ingredient.quantity))
-                    .append(" ")
-                    .append(ingredient.measure.toLowerCase())
-                    .append("   ")
-                    .append(ingredient.ingredient)
+            ingredientsText.append(PrettyStrings.ingredientToString(ingredient))
                     .append(System.lineSeparator());
         }
         return ingredientsText.toString();
     }
 
-    private String prettyNumbers(float f){
-        String prettyNumber;
-        if (f == (long) f){
-            prettyNumber=String.format("%d",(long) f);
-        } else {
-            prettyNumber=String.format("%s",f);
-        }
 
-        String[] intermediateStr = prettyNumber.split("\\.");
-
-        Log.d(TAG, "prettyNumbers: "+ prettyNumber);
-
-        if(intermediateStr.length>1) {
-            Log.d(TAG, "prettyNumbers: " +intermediateStr[0]);
-            switch (intermediateStr[1]) {
-                case "25":
-                    prettyNumber = intermediateStr[0] + " ¼";
-                    break;
-                case "5":
-                    prettyNumber = intermediateStr[0] + " ½";
-                    break;
-                case ".75":
-                    prettyNumber = intermediateStr[0] + " ¾";
-                    break;
-                default:
-                    break;
-            }
-            //Handles the case of something like 0.5
-            if(intermediateStr[0].equals("0")){
-                prettyNumber=prettyNumber.replace("0 ","");
-            }
-        }
-
-        return prettyNumber;
-    }
 }
