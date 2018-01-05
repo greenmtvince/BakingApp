@@ -16,10 +16,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.quantrian.bakingapp.utils.DynamicHeightNetworkImageView
+        <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:src="@color/photo_placeholder" />
         <TextView
             android:id="@+id/Recipe_title"

@@ -13,19 +13,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.quantrian.bakingapp.Adapters.RecipeCardAdapter;
+import com.quantrian.bakingapp.adapters.RecipeCardAdapter;
 import com.quantrian.bakingapp.R;
-import com.quantrian.bakingapp.RecipeWidgetProvider;
+import com.quantrian.bakingapp.widget.RecipeWidgetProvider;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
 import com.quantrian.bakingapp.utils.NetworkUtilities;
 import com.quantrian.bakingapp.utils.TaskCompleteListener;
 
 import java.util.ArrayList;
-
+/*
+*   IGNORE FOR PROJECT EVALUATION
+*
+*Originally I'd intended to use a SQL Database to store data connected through a content provider
+* SQL is my goto.  As I got further into the project I realized it was complete overkill for what I
+* needed to do and there were better methods for the data at hand.
+*
+* Still this is working and tested and rather than delete it entirely I figured I'd keep it on hand
+* here to use as a boilerplate for future code.
+*
+* FORK CODE AND DELETE
+ */
 public class MainActivity extends AppCompatActivity {
     private Context mContext;
     private ArrayList<Recipe> mRecipes;
@@ -51,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.list_column_count));
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(
+                getResources().getInteger(R.integer.list_column_count),StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout_main)).setTitle("Baking Time");
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Checks to see if we're connected to the internet and if so calls the AsyncTask
     //Otherwise displays a Toast that the app isn't connected.
-    //TODO Implement a broadcast reciever to detect connectivity status changes
+    //
     //https://www.androidhive.info/2012/07/android-detect-internet-connection-status/
     private void loadRecipeData(Context context) {
         ConnectivityManager cm =

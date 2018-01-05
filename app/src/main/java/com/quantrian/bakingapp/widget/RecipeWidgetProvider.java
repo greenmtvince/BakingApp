@@ -1,4 +1,4 @@
-package com.quantrian.bakingapp;
+package com.quantrian.bakingapp.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,17 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.RemoteViews;
 
+import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Recipe;
-import com.quantrian.bakingapp.models.Step;
 import com.quantrian.bakingapp.ui.MainActivity;
-import com.quantrian.bakingapp.ui.RecipeDetailActivity;
 import com.quantrian.bakingapp.utils.NetworkUtilities;
-
-import java.util.ArrayList;
 
 /**
  * Implementation of App Widget functionality.

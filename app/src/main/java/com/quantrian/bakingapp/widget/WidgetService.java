@@ -1,4 +1,4 @@
-package com.quantrian.bakingapp;
+package com.quantrian.bakingapp.widget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

@@ -1,4 +1,4 @@
-package com.quantrian.bakingapp;
+package com.quantrian.bakingapp.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Ingredient;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.NetworkUtilities;

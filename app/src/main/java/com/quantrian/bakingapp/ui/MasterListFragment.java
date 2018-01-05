@@ -1,10 +1,6 @@
 package com.quantrian.bakingapp.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -23,8 +19,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.quantrian.bakingapp.Adapters.RecipeCardAdapter;
-import com.quantrian.bakingapp.Adapters.RecipeDetailAdapter;
+import com.quantrian.bakingapp.adapters.RecipeCardAdapter;
+import com.quantrian.bakingapp.adapters.RecipeDetailAdapter;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Ingredient;
 import com.quantrian.bakingapp.models.Step;

@@ -10,11 +10,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-/**
- * Created by Vinnie on 12/30/2017.
+/*
+*   IGNORE FOR PROJECT EVALUATION
+*
+*Originally I'd intended to use a SQL Database to store data connected through a content provider
+* SQL is my goto.  As I got further into the project I realized it was complete overkill for what I
+* needed to do and there were better methods for the data at hand.
+*
+* Still this is working and tested and rather than delete it entirely I figured I'd keep it on hand
+* here to use as a boilerplate for future code.
+*
+* FORK CODE AND DELETE
  */
-
 public class ContentProviderRecipe extends ContentProvider{
     public static final int RECIPES = 100;
     public static final int RECIPES_WITH_ID = 101;

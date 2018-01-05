@@ -6,10 +6,12 @@ import com.quantrian.bakingapp.models.Ingredient;
 
 /**
  * Created by Vinnie on 1/4/2018.
+ * This class provides helpers to clean up the strings in the Widget and the MasterList Adapter
  */
 
 public class PrettyStrings {
 
+    //Concats the Ingredient quantity, measure, and name into one string.
     public static String ingredientToString(Ingredient ingredient){
     StringBuilder ingredientsText= new StringBuilder();
         ingredientsText.append(PrettyStrings.prettyNumbers(ingredient.quantity))
@@ -17,10 +19,11 @@ public class PrettyStrings {
                 .append(ingredient.measure.toLowerCase())
                 .append("   ")
                 .append(ingredient.ingredient);
-                //.append(System.lineSeparator());
     return ingredientsText.toString();
     }
 
+    //Eliminates trailing 0s after decimal and converts some decimals to common fractions used in
+    //cooking.
     public static String prettyNumbers(float f){
         String prettyNumber;
         if (f == (long) f){

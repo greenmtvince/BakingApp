@@ -28,10 +28,23 @@ import org.junit.runner.RunWith;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-
+/*
+*   IGNORE FOR PROJECT EVALUATION
+*
+*Originally I'd intended to use a SQL Database to store data connected through a content provider
+* SQL is my goto.  As I got further into the project I realized it was complete overkill for what I
+* needed to do and there were better methods for the data at hand.
+*
+* Still this is working and tested and rather than delete it entirely I figured I'd keep it on hand
+* here to use as a boilerplate for future code.
+*
+* FORK CODE AND DELETE
+ */
 /**
  * Created by Vinnie on 12/30/2017.
  */
+
+
 
 @RunWith(AndroidJUnit4.class)
 public class TestContentProvider {
