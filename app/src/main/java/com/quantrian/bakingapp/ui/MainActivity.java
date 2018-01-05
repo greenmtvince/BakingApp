@@ -7,18 +7,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.quantrian.bakingapp.adapters.RecipeCardAdapter;
 import com.quantrian.bakingapp.R;
+import com.quantrian.bakingapp.idlingResource.SimpleIdlingResource;
 import com.quantrian.bakingapp.widget.RecipeWidgetProvider;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
@@ -39,11 +45,16 @@ import java.util.ArrayList;
 * FORK CODE AND DELETE
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "REFRESH";
+
     private Context mContext;
     private ArrayList<Recipe> mRecipes;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences mSharedPref;
+    private RecipeCardAdapter mRecipeCardAdapter;
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +70,11 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d(TAG, "onRefresh: 1");
                 loadRecipeData(mContext);
             }
         });
-
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(
-                getResources().getInteger(R.integer.list_column_count),StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+        //Normal place to set the layout manager.  It's in the setAdapter method now.  See comment.
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout_main)).setTitle("Baking Time");
         loadRecipeData(this);
@@ -83,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
+            Log.d(TAG, "onRefresh: Network Load");
             new FetchNetworkRecipes(new FetchRecipeTaskCompleteListener()).execute();
         } else {
             Toast.makeText(this, "Not Connected to the internet",
@@ -92,8 +102,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter(){
-        RecipeCardAdapter recipeCardAdapter = new RecipeCardAdapter(getApplicationContext(),mRecipes);
-        recipeCardAdapter.setOnItemClickListener(new RecipeCardAdapter.OnItemClickListener() {
+        Log.d(TAG, "onRefresh: SetAdapter");
+
+        if(mRecipeCardAdapter==null) {
+            mRecipeCardAdapter = new RecipeCardAdapter(getApplicationContext(), mRecipes);
+        }
+        mRecipeCardAdapter.setOnItemClickListener(new RecipeCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Recipe recipe = mRecipes.get(position);
@@ -113,23 +127,49 @@ public class MainActivity extends AppCompatActivity {
                 sendBroadcast(widgetIntent);
 
                 startActivity(i);
-
-
             }
         });
-        mRecyclerView.setAdapter(recipeCardAdapter);
+
+        /*Dear future Vinnie or Udacity reviewer this is here because StaggeredGridLayoutManager
+        has an issue with the swipeRefreshLayout.  onRefresh would cause the recyclerview to be empty
+        where a normal gridlayoutManager wouldn't be.  I lost a good hour and a half tracking this
+        issue down.  Not sure if it's a bug or an intended behavior with this particular layout manager
+         */
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(
+                getResources().getInteger(R.integer.list_column_count),StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        mRecyclerView.setAdapter(mRecipeCardAdapter);
     }
 
     public class FetchRecipeTaskCompleteListener implements TaskCompleteListener<ArrayList<Recipe>> {
         @Override
         public void onTaskComplete(ArrayList<Recipe> result){
             mRecipes = result;
-            writeToSharedPreferences();
+            Log.d(TAG, "onRefresh: Before SetAdapter.  Array Size: "+ mRecipes.size());
             setAdapter();
+            writeToSharedPreferences();
+            Log.d(TAG, "onRefresh: Task Complete.  Array Size: "+ mRecipes.size());
         }
     }
 
     public void writeToSharedPreferences(){
+        Log.d(TAG, "onRefresh: Shared Preferences");
         mSharedPref.edit().putString(getString(R.string.json_array), NetworkUtilities.convertToString(mRecipes)).apply();
+    }
+
+    /**
+
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+
+     */
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }

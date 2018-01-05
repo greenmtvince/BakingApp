@@ -2,6 +2,7 @@ package com.quantrian.bakingapp.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.quantrian.bakingapp.models.Recipe;
 
@@ -30,7 +31,8 @@ public class FetchNetworkRecipes extends AsyncTask<Void,Void,ArrayList<Recipe>> 
 
     @Override
     protected void onPostExecute(final ArrayList<Recipe> recipeArrayList){
-        if (recipeArrayList!=null){
+        if (recipeArrayList!=null) {
+
             super.onPostExecute(recipeArrayList);
             mListener.onTaskComplete(recipeArrayList);
         }
