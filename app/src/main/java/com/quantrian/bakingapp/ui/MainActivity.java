@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.quantrian.bakingapp.adapters.RecipeCardAdapter;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.idlingResource.SimpleIdlingResource;
+import com.quantrian.bakingapp.utils.JsonUtilities;
 import com.quantrian.bakingapp.widget.RecipeWidgetProvider;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.utils.FetchNetworkRecipes;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 * FORK CODE AND DELETE
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String SAVED_LAYOUT_MANAGER = "layout_manager";
     private static final String TAG = "REFRESH";
 
     private Context mContext;
@@ -53,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences mSharedPref;
     private RecipeCardAdapter mRecipeCardAdapter;
-    @Nullable
-    private SimpleIdlingResource mIdlingResource;
+    @Nullable private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         mRecyclerView.setAdapter(mRecipeCardAdapter);
+
     }
 
     public class FetchRecipeTaskCompleteListener implements TaskCompleteListener<ArrayList<Recipe>> {
@@ -150,12 +153,14 @@ public class MainActivity extends AppCompatActivity {
             setAdapter();
             writeToSharedPreferences();
             Log.d(TAG, "onRefresh: Task Complete.  Array Size: "+ mRecipes.size());
+
         }
     }
 
     public void writeToSharedPreferences(){
         Log.d(TAG, "onRefresh: Shared Preferences");
-        mSharedPref.edit().putString(getString(R.string.json_array), NetworkUtilities.convertToString(mRecipes)).apply();
+        mSharedPref.edit().putString(getString(R.string.json_array),
+                JsonUtilities.serialize(mRecipes)).apply();
     }
 
     /**
@@ -172,4 +177,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return mIdlingResource;
     }
+
+    
 }

@@ -12,13 +12,18 @@ import android.widget.RemoteViews;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.ui.MainActivity;
+import com.quantrian.bakingapp.utils.JsonUtilities;
 import com.quantrian.bakingapp.utils.NetworkUtilities;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
+    private static final String TAG = RecipeWidgetProvider.class.getSimpleName();
     private static Recipe mRecipe;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -80,7 +85,13 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         Log.d("WIDGETOR", "getRecipeFromPrefs: "+position);
 
         String json_array = preferences.getString(context.getString(R.string.json_array),null);
-        mRecipe =  NetworkUtilities.convertArray(json_array).get(position);
+        //Recipe recipe =new Recipe();
+        try {
+            Recipe[] list = JsonUtilities.deSerialize(json_array, Recipe[].class);
+            mRecipe= new ArrayList<>(Arrays.asList(list)).get(position);
+        } catch (ClassNotFoundException e){
+            Log.d(TAG, "ClassNotFoundException: "+e);
+        }
     }
 }
 

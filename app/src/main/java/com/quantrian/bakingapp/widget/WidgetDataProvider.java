@@ -10,10 +10,12 @@ import android.widget.RemoteViewsService;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Ingredient;
 import com.quantrian.bakingapp.models.Recipe;
+import com.quantrian.bakingapp.utils.JsonUtilities;
 import com.quantrian.bakingapp.utils.NetworkUtilities;
 import com.quantrian.bakingapp.utils.PrettyStrings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ import java.util.List;
  */
 
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory{
-
+    private static final String TAG = WidgetDataProvider.class.getSimpleName();
     private List<String> collection = new ArrayList<>();
     Context context;
     Intent intent;
@@ -94,7 +96,16 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         Log.d("WIDGETOR", "getRecipeFromPrefs: "+position);
 
         String json_array = preferences.getString(context.getString(R.string.json_array),null);
-        Recipe recipe =  NetworkUtilities.convertArray(json_array).get(position);
+        Recipe recipe =new Recipe();
+        try {
+            Recipe[] list = JsonUtilities.deSerialize(json_array, Recipe[].class);
+            recipe= new ArrayList<>(Arrays.asList(list)).get(position);
+        } catch (ClassNotFoundException e){
+            Log.d(TAG, "ClassNotFoundException: "+e);
+        }
+
+        /*Recipe recipe =  ((ArrayList<Recipe>)(Object) JsonUtilities
+                            .deSerializeList(json_array, Recipe[].class)).get(position);*/
         for (Ingredient ingredient : recipe.ingredients){
             collection.add(PrettyStrings.ingredientToString(ingredient));
         }

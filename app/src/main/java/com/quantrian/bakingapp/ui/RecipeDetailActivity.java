@@ -10,16 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantrian.bakingapp.R;
+import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.models.Step;
 
 import java.util.ArrayList;
 
 public class RecipeDetailActivity extends AppCompatActivity implements OnStepClickListener{
-    private static final String FRAGMENT_TAG = "step_detail_fragment_tag";
+    private static final String DETAIL_FRAGMENT_TAG = "step_detail_fragment_tag";
+    private static final String LIST_FRAGMENT_TAG = "list_fragment_tag";
     private int currentStep;
     private ArrayList<Step> steps;
     private Boolean mTwoPane;
     private String recipeName;
+    private MasterListFragment mMasterListFragment;
     private RecipeStepDetailFragment mRetainedFragment;
 
     @Override
@@ -40,9 +43,14 @@ public class RecipeDetailActivity extends AppCompatActivity implements OnStepCli
         fraggy.setArguments(bundle);
         FragmentManager fragmentManager1 = getSupportFragmentManager();
 
-        fragmentManager1.beginTransaction()
-                .replace(R.id.recipe_detail_frame, fraggy)
-                .commit();
+        mMasterListFragment = (MasterListFragment) fragmentManager1
+                .findFragmentByTag(LIST_FRAGMENT_TAG);
+
+        if(mMasterListFragment==null) {
+            fragmentManager1.beginTransaction()
+                    .replace(R.id.recipe_detail_frame, fraggy, LIST_FRAGMENT_TAG)
+                    .commit();
+        }
 
         if (findViewById(R.id.recipe_detail_linear_layout)!=null){
             mTwoPane=true;
@@ -77,7 +85,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements OnStepCli
 
 
         mRetainedFragment = (RecipeStepDetailFragment) fragmentManager2
-                .findFragmentByTag(FRAGMENT_TAG);
+                .findFragmentByTag(DETAIL_FRAGMENT_TAG);
 
         if(mRetainedFragment == null||selected){
             Bundle b = new Bundle();
@@ -86,7 +94,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements OnStepCli
             mRetainedFragment = RecipeStepDetailFragment.newInstance(steps.get(currentStep));
             mRetainedFragment.setArguments(b);
             fragmentManager2.beginTransaction()
-                    .replace(R.id.landscape_step_detail, mRetainedFragment,FRAGMENT_TAG)
+                    .replace(R.id.landscape_step_detail, mRetainedFragment,DETAIL_FRAGMENT_TAG)
                     .commit();
         }
 
@@ -119,6 +127,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements OnStepCli
         if (isFinishing()&&mRetainedFragment!=null){
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().remove(mRetainedFragment).commit();
+        }
+        if (isFinishing()&&mMasterListFragment!=null){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().remove(mMasterListFragment).commit();
         }
     }
 

@@ -2,6 +2,7 @@ package com.quantrian.bakingapp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,10 +35,12 @@ import java.util.ArrayList;
  */
 public class MasterListFragment extends Fragment {
 
+    private static final String SAVED_LAYOUT_MANAGER = "layout_manager";
     OnStepClickListener mCallback;
 
     private static final String TAG = "FRAGLOG";
     private RecyclerView mRecyclerView;
+    private Parcelable mLayoutManagerState;
 
     public MasterListFragment() {
         // Required empty public constructor
@@ -125,5 +128,29 @@ public class MasterListFragment extends Fragment {
         return ingredientsText.toString();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outstate){
+        Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outstate);
+            outstate.putParcelable(SAVED_LAYOUT_MANAGER,
+                    mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        Log.d(TAG, "onActivityCreated: ");
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null){
+            mLayoutManagerState=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mLayoutManagerState != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mLayoutManagerState);
+        }
+    }
 
 }

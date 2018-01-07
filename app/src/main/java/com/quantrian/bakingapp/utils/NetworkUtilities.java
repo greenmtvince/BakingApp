@@ -13,6 +13,7 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,7 +41,9 @@ public class NetworkUtilities {
 
         // Parse JSON
         try {
-            return convertArray(itemsJson);
+            Recipe[] list = JsonUtilities.deSerialize(itemsJson, Recipe[].class);
+
+            return new ArrayList<>(Arrays.asList(list));
         } catch (Exception e) {
             Log.e(TAG, "Error parsing items JSON", e);
         }
@@ -64,7 +67,7 @@ public class NetworkUtilities {
         return response.body().string();
     }
 
-    public static ArrayList<Recipe> convertArray(String rawJson) {
+    /*public static ArrayList<Recipe> convertArray(String rawJson) {
         Gson gson = new Gson();
         Recipe[] rArray = gson.fromJson(rawJson, Recipe[].class);
 
@@ -74,7 +77,7 @@ public class NetworkUtilities {
     public static String convertToString(ArrayList<Recipe> recipes){
         Gson gson = new Gson();
         return gson.toJson(recipes);
-    }
+    }*/
 
 
 }

@@ -41,6 +41,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Recipe;
 import com.quantrian.bakingapp.models.Step;
+import static butterknife.ButterKnife.findById;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -77,7 +78,6 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
      * @param step1 Parameter 1.
      * @return A new instance of fragment RecipeStepDetailFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static RecipeStepDetailFragment newInstance(Step step1) {
         Log.d(TAG, "newInstance: ");
         RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
@@ -107,14 +107,14 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
 
 
         //if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT) {
-        ((TextView) view.findViewById(R.id.recipe_step_detail_fragment_instruction_text))
+        ((TextView) findById(view, R.id.recipe_step_detail_fragment_instruction_text))
                     .setText(mStep.description);
         //}
-        mPlayerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
+        mPlayerView = findById(view, R.id.playerView);
 
         initializeMediaSession();
 
-        if(!mStep.videoURL.equals(""))
+        if(!mStep.videoURL.isEmpty())
             initializePlayer(Uri.parse(mStep.videoURL));
         else
             mPlayerView.setVisibility(View.GONE);
