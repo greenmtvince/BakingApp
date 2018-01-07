@@ -97,6 +97,8 @@ public class TestMainActivityScreen {
         }
     }
 
+    //Solution from
+    //https://stackoverflow.com/questions/33505953/espresso-how-to-test-swiperefreshlayout
     public static ViewAction withCustomConstraints(final ViewAction action, final Matcher<View> constraints) {
         return new ViewAction() {
             @Override
