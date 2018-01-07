@@ -2,15 +2,19 @@ package com.quantrian.bakingapp.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quantrian.bakingapp.R;
 import com.quantrian.bakingapp.models.Step;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import static butterknife.ButterKnife.findById;
 
 /**
  * Created by Vinnie on 1/1/2018.
@@ -48,6 +52,29 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         }
         holder.stepName.setText(prefix+mSteps.get(position).shortDescription);
         holder.itemView.setSelected(selectedPos==position);
+
+        String imageUrl = mSteps.get(position).thumbnailURL;
+        String videoUrl = mSteps.get(position).videoURL;
+        Log.d("IDDQD", "onBindViewHolder: "+videoUrl);
+        //Set a thumbnail if there's a video, if a thumbnail is provided, use that, otherwise use
+        //the placeholder.  If there's no video, leave out the thumbnail.
+        if (!videoUrl.isEmpty()) {
+            if (imageUrl.isEmpty()) {
+                Picasso.with(mContext).load(R.drawable.ic_video_label_24dp)
+                        .placeholder(R.drawable.ic_video_label_24dp)
+                        //.transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
+                        .into(holder.stepThumbnail);
+            } else {
+                Picasso.with(mContext)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_video_label_24dp)
+                        //.transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
+                        .into(holder.stepThumbnail);
+            }
+        } else {
+            holder.stepThumbnail.setVisibility(View.GONE);
+            Log.d("IDDQD", "Poofbegone ");
+        }
     }
 
     @Override
@@ -62,11 +89,13 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView stepName;
+        private ImageView stepThumbnail;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            stepName = itemView.findViewById(R.id.recipe_detail_item_text);
+            stepName = findById(itemView,R.id.recipe_detail_item_text);
+            stepThumbnail = findById(itemView,R.id.videoThumbnail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

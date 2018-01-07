@@ -53,16 +53,20 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+        //NOT REQUIRED AFTER REMOVAL OF STAGGEREDGRIDLAYOUT MANAGER.
+        //
         //Explanation of this solution at:
         //https://stackoverflow.com/questions/21889735/
         //      resize-image-to-full-width-and-variable-height-with-picasso
-        holder.iv_thumbnail.getViewTreeObserver()
+        /*holder.iv_thumbnail.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
                         if (holder.iv_thumbnail.getWidth()>0)
                             holder.iv_thumbnail.getViewTreeObserver()
                                   .removeOnGlobalLayoutListener(this);
+
+        */
 
                         String imageUrl = recipes.get(position).image;
                         //Picasso won't allow an empty string to revert to placeholder despite this
@@ -72,17 +76,17 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Vi
 
                         if (imageUrl.equals("")) {
                             Picasso.with(context).load(R.drawable.baking_placeholder)
-                                    .transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
+                                    //.transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
                                     .into(holder.iv_thumbnail);
                         } else {
                         Picasso.with(context)
                                 .load(imageUrl)
                                 .placeholder(R.drawable.baking_placeholder)
-                                .transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
+                                //.transform(ImageTransformation.getTransformation(holder.iv_thumbnail))
                                 .into(holder.iv_thumbnail);
                         }
-                    }
-                });
+                //    }
+                //});
         holder.tv_servings.setText("Serves: "+String.valueOf(recipes.get(position).servings));
         holder.tv_title.setText(recipes.get(position).name);
     }

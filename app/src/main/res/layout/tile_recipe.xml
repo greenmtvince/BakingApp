@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     android:layout_marginLeft="@dimen/list_side_margin"
     android:layout_marginRight="@dimen/list_side_margin"
     android:layout_marginTop="@dimen/list_side_margin"
@@ -10,42 +10,48 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground">
-
-    <LinearLayout
+    <ImageView
+        android:id="@+id/thumbnail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/thumbnail"
+        android:src="@drawable/baking_placeholder"
+        />
+    <View
+            android:id="@+id/gradient"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@color/photo_placeholder"
-            android:scaleType="centerCrop" />
+            android:layout_height="80dp"
+            android:alpha=".4"
+            android:background="@drawable/scrim_gradient"
+            android:layout_gravity="bottom"
+            />
+
         <TextView
             android:id="@+id/Recipe_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:paddingBottom="30dp"
             android:paddingStart="@dimen/card_padding_left"
             android:paddingEnd="@dimen/card_padding_right"
             android:paddingTop="@dimen/card_title_padding_top"
-            android:textColor="#000"
-            android:textSize="24sp"
-            tools:text="This Is the Recipe" />
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            tools:text="This Is the Recipe"
+            android:layout_gravity="bottom"/>
 
         <TextView
             android:id="@+id/Recipe_servings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:paddingBottom="@dimen/card_text_padding_bottom"
+
             android:paddingStart="@dimen/card_padding_left"
             android:paddingEnd="@dimen/card_padding_right"
             android:paddingTop="@dimen/card_text_padding_top"
-            android:textColor="#000"
-            android:textSize="14sp"
-            tools:text="Serves 8" />
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+            android:paddingBottom="16dp"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            tools:text="Serves 8"
+            android:layout_gravity="bottom"/>
+</FrameLayout>

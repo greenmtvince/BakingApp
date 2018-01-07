@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/recipe_detail_item_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
@@ -17,9 +17,21 @@
         android:layout_marginTop="16dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/videoThumbnail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="THIS IS AN INGREDIENT STEP" />
+        tools:text="THIS IS AN INGREDIENT STEP"
+        android:singleLine="false"/>
+
+    <ImageView
+        android:id="@+id/videoThumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/recipe_detail_item_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recipe_detail_item_text"
+        app:srcCompat="@drawable/ic_video_label_24dp" />
 
 </android.support.constraint.ConstraintLayout>

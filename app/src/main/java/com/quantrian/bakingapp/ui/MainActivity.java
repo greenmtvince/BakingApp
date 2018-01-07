@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     private RecipeCardAdapter mRecipeCardAdapter;
     @Nullable private SimpleIdlingResource mIdlingResource;
+    private Parcelable layoutManagerSavedState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 loadRecipeData(mContext);
             }
         });
-        //Normal place to set the layout manager.  It's in the setAdapter method now.  See comment.
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+                getResources().getInteger(R.integer.list_column_count));
+        mRecyclerView.setLayoutManager(gridLayoutManager);
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout_main)).setTitle("Baking Time");
         loadRecipeData(this);
@@ -132,16 +136,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*Dear future Vinnie or Udacity reviewer this is here because StaggeredGridLayoutManager
-        has an issue with the swipeRefreshLayout.  onRefresh would cause the recyclerview to be empty
-        where a normal gridlayoutManager wouldn't be.  I lost a good hour and a half tracking this
-        issue down.  Not sure if it's a bug or an intended behavior with this particular layout manager
-         */
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(
-                getResources().getInteger(R.integer.list_column_count),StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+
 
         mRecyclerView.setAdapter(mRecipeCardAdapter);
+        if (layoutManagerSavedState!=null){
+
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
+        }
 
     }
 
@@ -163,10 +164,22 @@ public class MainActivity extends AppCompatActivity {
                 JsonUtilities.serialize(mRecipes)).apply();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outstate){
+        super.onSaveInstanceState(outstate);
+        outstate.putParcelable(SAVED_LAYOUT_MANAGER, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle state){
+        if (state !=null){
+            layoutManagerSavedState = state.getParcelable(SAVED_LAYOUT_MANAGER);
+        }
+        super.onRestoreInstanceState(state);
+    }
+
     /**
-
      * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
-
      */
 
     @VisibleForTesting
