@@ -55,7 +55,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
         String imageUrl = mSteps.get(position).thumbnailURL;
         String videoUrl = mSteps.get(position).videoURL;
-        Log.d("IDDQD", "onBindViewHolder: "+videoUrl);
         //Set a thumbnail if there's a video, if a thumbnail is provided, use that, otherwise use
         //the placeholder.  If there's no video, leave out the thumbnail.
         if (!videoUrl.isEmpty()) {
@@ -73,7 +72,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
             }
         } else {
             holder.stepThumbnail.setVisibility(View.GONE);
-            Log.d("IDDQD", "Poofbegone ");
         }
     }
 

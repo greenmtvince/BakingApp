@@ -1,4 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_drawable_selector"
+    >
+    <ImageView
+        android:id="@+id/videoThumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/recipe_detail_item_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recipe_detail_item_text"
+        android:src="@drawable/ic_video_label_24dp"
+        android:layout_gravity="start|center_vertical"
+        />
+    <TextView
+        android:id="@+id/recipe_detail_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="16dp"
+        android:singleLine="false"
+        android:textSize="20sp"
+        tools:text="THIS IS AN INGREDIENT STEP"
+        android:layout_gravity="start|center_vertical"
+        android:textColor="@color/list_color_selector"
+        />
+
+
+
+</FrameLayout>
+<!--
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,4 +77,4 @@
         app:layout_constraintTop_toTopOf="@+id/recipe_detail_item_text"
         app:srcCompat="@drawable/ic_video_label_24dp" />
 
-</android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>-->

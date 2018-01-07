@@ -62,7 +62,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements OnStepCli
     }
 
     public void onStepSelected(int position){
-        Toast.makeText(this, "Position Clicked = "+position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Position Clicked = "+position, Toast.LENGTH_SHORT).show();
         currentStep=position;
         if(mTwoPane){
             updateStepDetailPane(true);

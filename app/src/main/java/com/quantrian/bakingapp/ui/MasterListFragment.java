@@ -93,7 +93,7 @@ public class MasterListFragment extends Fragment {
         recipeDetailAdapter.setOnItemClickListener(new RecipeCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Toast.makeText(context, "You clicked item at position "+ position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "You clicked item at position "+ position, Toast.LENGTH_SHORT).show();
                 mCallback.onStepSelected(position);
 
             }
